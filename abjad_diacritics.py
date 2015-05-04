@@ -47,7 +47,7 @@ class Hook():
     addHook('fmod_'+name, self.remove_diacritics)
   
   def remove_diacritics(self, txt, exc, *_):
-    nkfd_form = unicodedata.normalize('NFKD', txt)
+    nkfd_form = unicodedata.normalize('NFKD', unicode(txt))
     try:
       excl = [unichr(c) for k in exc.split(',') for c in characters[self.script][k]]
     except (AttributeError, KeyError):
@@ -55,7 +55,7 @@ class Hook():
     keep = "".join([c for c in nkfd_form if \
                     not (ord(c) in self.incl and unicodedata.combining(c)) \
                     or c in excl])
-    return unicodedata.normalize('NFKC',keep)
+    return unicodedata.normalize('NFKC', unicode(keep))
 
 
 #ADD YOUR HOOKS HERE
